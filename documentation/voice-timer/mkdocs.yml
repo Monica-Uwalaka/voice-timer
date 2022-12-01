@@ -1,4 +1,7 @@
 site_name: voice-timer
 
+nav:
+-Home: index.md
+-project Requirements: project-requirements.md
 
 theme: readthedocs
