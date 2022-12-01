@@ -10,7 +10,7 @@ const openai = new OpenAIApi(configuration);
 async function openaiResult(promptText){
     const completion = await openai.createCompletion({
         model: "text-davinci-003",
-        prompt: `Convert text to time duration:\n\nExample: set timer for one hour and 10 minutes\nOutput: 01:10:00\n\n${promptText}\nOutput:`,
+        prompt: `Convert text to time duration:\n\nExample: set timer for one runningHour and 10 runningMinutes\nOutput: 01:10:00\n\n${promptText}\nOutput:`,
         temperature: 0,
         max_tokens: 100,
         top_p: 1,
@@ -21,18 +21,19 @@ async function openaiResult(promptText){
 }
 
 const inputPrompt = require("prompt-sync")({ sigint: true });
-//  get input for hours, minutes and seconds  from user
-const inputHours = parseInt(inputPrompt("Hour: "))
-const inputMinutes = parseInt(inputPrompt("Minute: "))
-const inputSeconds = parseInt(inputPrompt("Second: "))
+
+//  get input for runningHours, runningMinutes and seconds  from user
+const inputHour = parseInt(inputPrompt("Hour: "))
+const inputMinute = parseInt(inputPrompt("Minute: "))
+const inputSecond = parseInt(inputPrompt("Second: "))
 
 // convert time to seconds 
-const timeInSeconds = (inputHours*3600) + (inputMinutes*60) + inputSeconds
+const durationInSeconds = (inputHour*3600) + (inputMinute*60) + inputSecond
 
-let hours = 0
-let minutes = 0
-let seconds = 0
-let count = 0
+let runningHour  = Math.floor(durationInSeconds/3600)
+let runningMinute = (Math.floor(durationInSeconds/60))%60
+let runningSeconds = durationInSeconds%60
+let runningDuration = durationInSeconds
 let intervalID;
 
 // funtion that runs timer
@@ -44,18 +45,18 @@ const runTimer = () => {
 
 // timer function
 const timer = () => {
-    if (count < timeInSeconds){
-    count += 1
-    hours = Math.floor(count/3600)
-    minutes = (Math.floor(count/60))%60
-    seconds = count%60
-    console.log(`${hours}:${minutes}:${seconds}`)
+    if (runningDuration > 0){
+    runningDuration -= 1
+    runningHour = Math.floor(runningDuration/3600)
+    runningMinute = (Math.floor(runningDuration/60))%60
+    runningSeconds = runningDuration%60
+    console.log(`${runningHour}:${runningMinute}:${runningSeconds}`)
     }else{
         clearInterval(intervalID)
     }
 }
 
-let promptText = "Set timer to 6 hours and 7 minutes and 0 seconds"
+let promptText = "Set timer to 6 runningHours and 7 runningMinutes and 0 seconds"
 openaiResult(promptText)
 .then((response)=>{
     console.log(response)
