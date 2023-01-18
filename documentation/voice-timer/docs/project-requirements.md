@@ -64,7 +64,6 @@ VoiceTimer is a timer application that measures a specific time interval entered
 
 #### US 6.01 - End Alert sound
 **As** a user **I want** to be able to set an alert sound **so that** so that I know when the timer has ended.
-
 > **Acceptance Criteria**
 >- The timer timer duration has been completed.
 
