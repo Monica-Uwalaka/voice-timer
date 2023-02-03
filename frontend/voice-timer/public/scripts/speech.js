@@ -23,7 +23,7 @@ recognition.onresult = (event) => {
   console.log("latest:",latestResultTranscript, recognitionResultsLength)
   
   
-  fetch('http://127.0.0.1:3000/convert', {method:'POST', headers: {
+  fetch('http://127.0.0.1:3000/interpretSpeech', {method:'POST', headers: {
     'Content-Type': 'application/json',
   }, body: JSON.stringify({"transcript":latestResultTranscript})})
   .then((response) => console.log("re", response))
